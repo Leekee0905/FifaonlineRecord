@@ -1,6 +1,7 @@
 import { Box, Button, FormControl, Input } from "@mui/material";
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios'
+import { useRouter } from 'next/router';
 
 type Name = {
   name: string;
@@ -13,9 +14,20 @@ const SearchBar = () => {
     }
   });
 
+  const router = useRouter();
   const handleBtn = async (data: Name) => {
-    await axios.post('/api/hello',data)
-    console.log(data)
+    try {
+      const response = await axios.post('/api/nickname', data);
+      router.push({
+        pathname: `/record`,
+        query: {
+          name: response.data.nickname,
+          accessId: response.data.accessId
+        }
+      });
+    } catch (error) {
+      console.error('Error occurred during search:', error);
+    }
   }
   return(
     <Box sx={{ textAlign: 'center'}}>
