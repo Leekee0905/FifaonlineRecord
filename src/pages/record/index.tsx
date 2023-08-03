@@ -1,5 +1,5 @@
 import RecordBlock from '@/component/RecordBlock';
-import { Button, ButtonGroup } from '@mui/material';
+import { Box, Button, ButtonGroup, Typography } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/router'
@@ -8,14 +8,23 @@ import { useEffect, useState } from 'react'
 const Record = () => {
   const router = useRouter();
   const [matchType, setMatchType] = useState<number>(50)
-  const { isLoading, isSuccess, data } = useQuery(['matchType', matchType], ()=>axios.get('/api/matchInfo',{
-    params:{
-      matchType: matchType,
-      accessId: router.query.accessId
+  const [recordData, setRecordData] = useState<any>([])
+  const { isLoading } = useQuery(
+    {
+      queryKey: ['matchInfo', matchType, router.query.accessId],
+      queryFn: ()=>axios.get('/api/matchInfo',{
+        params:{
+          matchType: matchType,
+          accessId: router.query.accessId
+        }
+      }),
+      onSuccess:({data})=>{
+        setRecordData(data)
+      },
     }
-  })
   )
-  console.log(data?.data)
+
+  
   useEffect(() => {
     if(!router.isReady) return;
     console.log(router.query,'🙆‍♀️ 콘솔에 쿼리 찍힘!')
@@ -36,6 +45,16 @@ const Record = () => {
         break;
     }
   }
+
+  if(isLoading){
+    return(
+      <Box>
+        <Typography>
+          Now on Loading...
+        </Typography>
+      </Box>
+    )
+  }
   return(
     <>
       <ButtonGroup variant='contained' aria-label='outlined primary button group'>
@@ -43,7 +62,14 @@ const Record = () => {
         <Button className='typeBtn' onClick={handleMatchBtn}>친선경기</Button>
         <Button className='typeBtn' onClick={handleMatchBtn}>감독모드</Button>
       </ButtonGroup>
-      <RecordBlock/>
+      {
+        recordData.map((e: string,idx:number)=>{
+          return(
+            <RecordBlock key={idx} data={e}/>
+          )
+        })
+      }
+      
     </>
   )
 }
