@@ -10,13 +10,12 @@ export default async function getMatchInfo(
   try{
     const matchInfo= req.query.matchType;
     const accessId = req.query.accessId
-    const response = await axios.get(`https://api.nexon.co.kr/fifaonline4/v1.0/users/${accessId}/matches?matchtype=${matchInfo}&offset=0&limit=100`,
+    const response = await axios.get(`https://api.nexon.co.kr/fifaonline4/v1.0/users/${accessId}/matches?matchtype=${matchInfo}&offset=0&limit=10`,
     {
       headers:{
         Authorization: process.env.FIFAONLINE_API_HEADER_KEY
       }
     })
-    console.log(response.data)
     res.status(200).json(response.data)
 
   }
