@@ -1,8 +1,25 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import { useState } from 'react'
 
-const RecordBlock = () => {
-
+const RecordBlock = (data:any) => {
+  const matchId = data.data
+  const [matchDetail, setMatchDetail] = useState<any>([])
+  const block = useQuery({
+    queryKey: ['matchId',matchId],
+    queryFn: ()=>axios.get('/api/matchDetail',{
+      params:{
+        matchId: matchId
+      }
+    }),
+    onSuccess:(detail:any)=>{
+      setMatchDetail(detail.data)
+      console.log(detail.data)
+    },
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  })
   return (
     <>
       <Box>
@@ -12,7 +29,7 @@ const RecordBlock = () => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              bye
+              {data.data}
             </Typography>
           </AccordionDetails>
         </Accordion>
