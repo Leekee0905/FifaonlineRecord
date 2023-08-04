@@ -65,7 +65,7 @@ const Record = () => {
       {
         recordData.map((e: string,idx:number)=>{
           return(
-            <RecordBlock key={idx} data={e}/>
+            <RecordBlock key={idx} id={e}/>
           )
         })
       }
