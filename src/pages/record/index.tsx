@@ -1,5 +1,5 @@
 import RecordBlock from '@/component/RecordBlock';
-import { Box, Button, ButtonGroup, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, Typography, Container } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/router'
@@ -65,7 +65,10 @@ const Record = () => {
       {
         recordData.map((e: string,idx:number)=>{
           return(
-            <RecordBlock key={idx} id={e}/>
+            <Container key={idx}>
+              <RecordBlock  id={e}/>
+            </Container>
+            
           )
         })
       }
