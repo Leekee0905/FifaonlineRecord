@@ -62,24 +62,42 @@ const RecordBlock = (id:PropsId) => {
   return (
     <>
       <Box>
-        <Accordion>
-          <AccordionSummary>
-            <Typography>{matchDate}</Typography>
-            <Typography>{homeNickname} {goals.home} : {goals.away} {awayNickname}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-              {id.id}
-            </Typography>
+      <Accordion>
+      <AccordionSummary>
+        <Typography>{matchDate}</Typography>
+        <Typography>
+          {homeNickname} {goals.home} : {goals.away} {awayNickname}
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails style={{ padding: 0 }}>
+        <div style={{ position: 'relative', width: '100%', paddingTop: '56.25%', overflow: 'hidden' }}>
+          <img
+            src="/field.jpg"
+            alt="경기장"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+          <div style={{ position: 'absolute', top: '50%', left: '10%', transform: 'translate(-50%, -50%)' }}>
             <img
-            src={`https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/playersActionHigh/p${test}.png`}
-            alt='메시'
-            loading='lazy'/>
-            <img
-            src={`https://ssl.nexon.com/s2/game/fo4/obt/externalAssets/season/bwc.png`}
-            alt='시즌'/>
-          </AccordionDetails>
-        </Accordion>
+              width='50px'
+              height='50px'
+              id='messi'
+              src={`https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/playersActionHigh/p${test}.png`}
+              alt='메시'
+              loading='lazy'
+              style={{borderRadius: '50%', cursor: 'pointer', backgroundColor: 'rgb(51, 154, 240)'}}
+            />
+          </div>
+        </div>
+        <Typography>{id.id}</Typography>
+      </AccordionDetails>
+    </Accordion>
       </Box>
     </>
   )
