@@ -1,4 +1,5 @@
 import RecordBlock from '@/component/RecordBlock';
+import SearchBar from '@/component/SearchBar';
 import { Box, Button, ButtonGroup, Typography, Container } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
@@ -32,7 +33,7 @@ const Record = () => {
   
 
   const handleMatchBtn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    let text = e.currentTarget.innerText
+    const text = e.currentTarget.innerText
     switch(text){
       case '공식경기':
         setMatchType(50)
@@ -57,6 +58,7 @@ const Record = () => {
   }
   return(
     <>
+    <SearchBar/>
       <ButtonGroup variant='contained' aria-label='outlined primary button group'>
         <Button className='typeBtn' onClick={handleMatchBtn}>공식경기</Button>
         <Button className='typeBtn' onClick={handleMatchBtn}>친선경기</Button>
