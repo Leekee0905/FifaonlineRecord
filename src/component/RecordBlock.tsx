@@ -2,6 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { useState } from 'react'
+import Players from './Players'
 
 type PropsId = {
   id: string
@@ -30,6 +31,7 @@ const RecordBlock = (id:PropsId) => {
   const [homeNickname, setHomeNickname] = useState<string>('')
   const [awayNickname, setAwayNickname] = useState<string>('')
   const [playerSeason, setPlayerSeason] = useState<number>(0)
+  const [homePlayerInfo, setHomePlayerInfo] = useState<any>([])
   const [goals, setGoals] = useState<Goals>({
     home: 0,
     away: 0
@@ -53,12 +55,13 @@ const RecordBlock = (id:PropsId) => {
       })
       setTest(detail.data.matchInfo[1].player[13].spId)
       setPlayerSeason(detail.data.matchInfo[1].player[13].spId.toString().slice(0,3))
-      console.log(detail.data)
+      setHomePlayerInfo(detail.data.matchInfo[0].player)
+      console.log(detail.data.matchInfo[0].player)
     },
-    refetchOnMount: false,
     refetchOnWindowFocus: false,
   })
-  console.log(test)
+
+  console.log(homePlayerInfo)
   return (
     <>
       <Box>
@@ -82,18 +85,30 @@ const RecordBlock = (id:PropsId) => {
               height: '100%',
               objectFit: 'cover',
             }}
+            loading='lazy'
           />
-          <div style={{ position: 'absolute', top: '50%', left: '10%', transform: 'translate(-50%, -50%)' }}>
+
+          <div style={{ position: 'absolute', top: '10%', left: '20%', transform: 'translate(-50%, -50%)' }}>
             <img
               width='50px'
               height='50px'
               id='messi'
-              src={`https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/playersActionHigh/p${test}.png`}
+              src={`https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/playersActionHigh/p${0}.png`}
               alt='메시'
               loading='lazy'
               style={{borderRadius: '50%', cursor: 'pointer', backgroundColor: 'rgb(51, 154, 240)'}}
             />
           </div>
+          {
+            homePlayerInfo.map((e:any,idx:number)=>{
+              return(
+                <>
+                  <Players key={idx} playerInfo={e}/>
+                </>
+              )
+            })
+          }
+
         </div>
         <Typography>{id.id}</Typography>
       </AccordionDetails>
